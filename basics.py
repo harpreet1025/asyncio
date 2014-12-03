@@ -12,5 +12,6 @@ def print_page(url):
     print(body)
 
 
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(print_page('http://www.chatimity.com'))
