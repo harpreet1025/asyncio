@@ -21,6 +21,8 @@ def print_all_pages(urls):
 
 loop = asyncio.get_event_loop()
 # loop.run_until_complete(print_page('http://www.chatimity.com'))
+
+# asyncio.wait takes a list a coroutines and returns a single coroutine that wrap them all
 # loop.run_until_complete(asyncio.wait([print_page('http://chatimity.com'),
 #                                       print_page('http://google.com')]))
 loop.run_until_complete(print_all_pages([print_page('http://chatimity.com'),
