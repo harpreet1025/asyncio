@@ -11,9 +11,17 @@ def print_page(url):
     body = yield from response.read()
     print(body)
 
-
+@asyncio.coroutine
+def print_all_pages(urls):
+    # takes a list of coroutines and returns an iterator 
+    # that yields the coroutines in the order in which they are completed, 
+    # so that when you iterate on it, you get each result as soon as it's available.
+    for item in asyncio.as_completed(urls):
+        yield from item
 
 loop = asyncio.get_event_loop()
 # loop.run_until_complete(print_page('http://www.chatimity.com'))
-loop.run_until_complete(asyncio.wait([print_page('http://chatimity.com'),
+# loop.run_until_complete(asyncio.wait([print_page('http://chatimity.com'),
+#                                       print_page('http://google.com')]))
+loop.run_until_complete(print_all_pages([print_page('http://chatimity.com'),
                                       print_page('http://google.com')]))
