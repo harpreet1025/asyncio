@@ -16,14 +16,17 @@ def first_magnet(page):
 @asyncio.coroutine
 def print_magnet(query):
     url = 'http://fastpiratebay.eu/thepiratebay.se/s/?q={}&category=0&page=0&orderby=99'.format(query)
-    page = yield from get(url, compress=True)
+    with (yield from sem):
+        page = yield from get(url, compress=True)
     magnet = first_magnet(page)
     print('{}: {}'.format(query, magnet))
 
 
-# TODO: Using Semaphores and progress bar
+# TODO: Using progress bar
 
 distros = ['archlinux', 'ubuntu', 'debian']
+# Ensures 5 parallel requests at a time
+sem = asyncio.Semaphore(5)
 loop = asyncio.get_event_loop()
 f = asyncio.wait([print_magnet(d) for d in distros])
 loop.run_until_complete(f)
